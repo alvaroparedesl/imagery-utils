@@ -1,8 +1,8 @@
 from ctypes import Union
 import xarray as xr
 import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA, SparsePCA
+from sklearn.cluster import KMeans, DBSCAN
 
 def _assemble(computed_data: np.array, 
               original_stack: xr.DataArray, 
@@ -42,8 +42,8 @@ def _assemble(computed_data: np.array,
 
 
 def applyTransCluster(data: xr.DataArray, 
-                    decomposition: Union[PCA], 
-                    cluster: Union[KMeans],
+                    decomposition: Union[PCA, SparsePCA], 
+                    cluster: Union[KMeans, DBSCAN],
                     output_zdim: list = [1]) -> xr.DataArray:
     """Apply sklearn decomposition and then a cluster prediction
     
