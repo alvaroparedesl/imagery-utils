@@ -1,8 +1,8 @@
-from ctypes import Union
 import xarray as xr
 import numpy as np
 from sklearn.decomposition import PCA, SparsePCA
 from sklearn.cluster import KMeans, DBSCAN
+from typing import Union
 
 def _assemble(computed_data: np.array, 
               original_stack: xr.DataArray, 
