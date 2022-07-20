@@ -1,8 +1,8 @@
 from ctypes import Union
 import xarray as xr
 import numpy as np
-from sklearn.preprocessing import PCA
-from sklearn.decomposition import KMeans
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
 
 def _assemble(computed_data: np.array, 
               original_stack: xr.DataArray, 
@@ -42,21 +42,21 @@ def _assemble(computed_data: np.array,
 
 
 def applyTransCluster(data: xr.DataArray, 
-                    transformation: Union[PCA], 
+                    decomposition: Union[PCA], 
                     cluster: Union[KMeans],
                     output_zdim: list = [1]) -> xr.DataArray:
-    """Apply sklearn transformation and then a cluster prediction
+    """Apply sklearn decomposition and then a cluster prediction
     
-    Given a 3D xarray DataArray, apply a transformation and a cluster prediction
+    Given a 3D xarray DataArray, apply a decomposition and a cluster prediction
     over the Z coordinate or axis.
     
     Args:
         data: a 3D xarray.DataAray. Must be in the order Z, Y, X or Z, X, Y, 
             where Z is the coordinate that would be traverse.
-        transformation: a sklearn.preprocessing fitted object that has a 
+        decomposition: a sklearn.preprocessing fitted object that has a 
             transform method.
         cluster: a sklearn.decomposition fitted object (using the previous
-            transformation) that as a transform method.
+            decomposition) that as a transform method.
         output_zdim: A list with the coordinates values of the new Z dim. Only 
             tested with [1] as value.
     
@@ -66,7 +66,7 @@ def applyTransCluster(data: xr.DataArray,
     """
     shape_ = data.shape
     dt = data.values.reshape(shape_[0], -1).T  # first coord is the one to be preserved!!
-    pcat = transformation.transform(dt)
+    pcat = decomposition.transform(dt)
     clustert = cluster.predict(pcat)
     ans = clustert.T.reshape(len(output_zdim), shape_[1], shape_[2])
     # TODO: test flexible Z coordinate output and not just 1.
