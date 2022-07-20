@@ -41,7 +41,7 @@ def _assemble(computed_data: np.array,
     return out
 
 
-def applyTransCluster(data: xr.DataArray, 
+def applyDecompCluster(data: xr.DataArray, 
                     decomposition: Union[PCA, SparsePCA], 
                     cluster: Union[KMeans, DBSCAN],
                     output_zdim: list = [1]) -> xr.DataArray:
