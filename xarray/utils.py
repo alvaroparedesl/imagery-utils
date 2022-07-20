@@ -75,7 +75,7 @@ def applyTransCluster(data: xr.DataArray,
 
 def createTemplate(data: xr.DataArray,
                    new_coords: list,
-                   chunk: Union(dict, tuple) = None) -> xr.DataArray:
+                   chunk: Union[dict, tuple] = None) -> xr.DataArray:
     """Create a template from an xarray.DataArray filled with 0s
     
     This function is intented to be used as part of the dask.array.map_blocks
